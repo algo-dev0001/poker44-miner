@@ -55,22 +55,29 @@ class ModelMiner(BaseMinerNeuron):
             repo_root=repo_root,
             implementation_files=[
                 Path(__file__).resolve(),
-                Path(_MODEL_PKG) / "features.py",
-                Path(_MODEL_PKG) / "serve.py",
+                Path(_MODEL_PKG) / "serve_si.py",
+                Path("/home/allice/competitor_travis/poker44_ml/inference.py"),
+                Path("/home/allice/competitor_travis/poker44_ml/features.py"),
             ],
             defaults={
-                "model_name": "poker44-lgbm-dispersion",
+                "model_name": "poker44-scaleinv-stacked",
                 "model_version": "1",
-                "framework": "lightgbm",
+                "framework": "lightgbm+sklearn-stacked",
                 "license": "MIT",
-                # TODO: point these at YOUR public repo + real commit before
-                # chasing top scores, or the manifest audit can zero you out.
-                "repo_url": "https://github.com/Poker44/Poker44-subnet",
-                "notes": "GBDT over within-group dispersion features.",
+                "repo_url": "https://github.com/algo-dev0001/poker44-miner",
+                "repo_commit": "750c9ecd5dcf5790b30feda38a0bfa9e9d901128",
+                "notes": (
+                    "Scale-invariant stacked ensemble (LightGBM/ExtraTrees/"
+                    "RandomForest) with isotonic calibration; serves raw ranking "
+                    "scores. Built on the MIT-licensed community pipeline "
+                    "(Travis861/Poker44_v1, phasberg/poker44-model)."
+                ),
                 "open_source": True,
                 "inference_mode": "remote",
                 "training_data_statement": (
-                    "Trained on the public Poker44 benchmark releases only."
+                    "Trained only on the public Poker44 training benchmark "
+                    "(api.poker44.net/api/v1/benchmark). No live/validator "
+                    "evaluation data is used."
                 ),
                 "training_data_sources": ["poker44-public-benchmark"],
                 "private_data_attestation": (
